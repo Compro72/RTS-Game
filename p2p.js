@@ -58,6 +58,7 @@ class P2PDataChannel {
 	async process(text) {
 		document.getElementById("input").style.display = "none";
 		document.getElementById("process").style.display = "none";
+		
 		let input = JSON.parse(text);
 		let otherSDP = input.sdp;
 		let otherIceList = input.iceCandidates || [];
@@ -82,8 +83,21 @@ class P2PDataChannel {
 	sendData(data) {
 		if (this.dataChannel && this.dataChannel.readyState === "open") {
 			this.dataChannel.send(JSON.stringify(data));
-			//return true;
 		}
-		//return false;
 	}
+
+	disconnect() {
+        if (this.dataChannel) {
+            this.dataChannel.close();
+            this.dataChannel = null;
+        }
+        
+        if (this.device) {
+            this.device.close();
+            this.device = null;
+        }
+        
+        this.iceList = [];
+        this.isInitiator = null;
+    }
 }

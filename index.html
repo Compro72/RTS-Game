@@ -5,14 +5,37 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body onclick="goFullscreen()">
-	<button id="process" onclick="p2p.process(document.getElementById('input').value)" style="position: absolute;">Process Answer</button>
-	<textarea id="input" placeholder="Paste Answer" style="position: absolute; top: 20px;"></textarea>
+	<p id="shareCode"></p>
+	<textarea id="input" placeholder="Paste Answer"></textarea>
+	<button id="process" onclick="p2p.process(document.getElementById('input').value)">Process Answer</button>
+	<p id="instructions">
+		Instructions:<br>
+		<br>
+		If you are creating the game (initiator), share the link generated with the other player.<br>
+		By pressing allow to clipboard, the link will automatically get copied.<br>
+		If you are joining a game (recieved a link), copy the generated code and share with the initiator.<br>
+		After the initiatior recives the code paste it in the "paste answer" field and press "Process Answer"<br>
+		<br>
+		Game Instructions:<br>
+		<br>
+		Arrow Keys - Move the camera around<br>
+		Mouse Drag - Select your units<br>
+		Mouse Click - Move units or attack opponent units/structures<br>
+		A key - Select all units<br>
+		S key - Scatter selected units<br>
+		H key - Return camera to home structure<br>
+		Game Objective - Destroy opponent's structure<br>
+		Your structure will constantly generate new units<br>
+	</p>
+
 	<script src="utils.js"></script>
+	<script src="constants.js"></script>
 	<script src="projectile.js"></script>
 	<script src="p2p.js"></script>
 	<script src="world.js"></script>
 	<script src="viewport.js"></script>
 	<script src="units.js"></script>
+	<script src="structures.js"></script>
 	<script src="main.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ class World {
 		this.size = createVector(sizeX, sizeY);
 		this.mainViewport = null;
 
-		this.encodedData = [[], []]
+		this.encodedData = [[], [], null];
 
 		this.localData = {
 			units: {},
@@ -17,6 +17,8 @@ class World {
 		}
 
 		this.nextUnitIndex = 0;
+		this.localStructure = new Structure(this);
+		this.remoteStructure = new RemoteStructure([[PLAYER1_POSITION.x, PLAYER1_POSITION.y], 175, 0.5]);
 	}
 
 	addUnit(unit) {
@@ -53,6 +55,8 @@ class World {
 		projectileData.forEach(data => {
 			this.remoteData.projectiles.push(new RemoteProjectile(data))
 		});
+
+		this.remoteStructure.decodeData(parsed[2]);
 	}
 	
 	setLocalUnitData() {
@@ -107,6 +111,9 @@ class World {
 
 	getAttackTarget() {
 		let attackTarget = null;
+		if (this.remoteStructure.isHovered(this.mainViewport)) {
+			return this.remoteStructure;
+		}
 		for (let unitId in this.remoteData.units) {
 				if (this.remoteData.units[unitId].isHovered(this.mainViewport)) {
 					attackTarget = this.remoteData.units[unitId];
@@ -119,6 +126,7 @@ class World {
 		this.mainViewport.update();
 
 		background(0);
+		
 		stroke(0, 89, 60)
 		strokeWeight(4)
 		let backGridSize = 300;
@@ -137,9 +145,11 @@ class World {
 		for (let i = 0; i<ceil(windowWidth/backGridSize)+1; i++) {
 			line(i*backGridSize-this.mainViewport.position.x%backGridSize-backGridSize/2, 0, i*backGridSize-this.mainViewport.position.x%backGridSize-backGridSize/2, windowHeight)
 		}
+		this.localStructure.update(viewport);
+		this.remoteStructure.update(viewport);
 
 
-		let allUnits = [...Object.values(this.localData.units), ...Object.values(this.remoteData.units)]
+		let allUnits = [...Object.values(this.localData.units), ...Object.values(this.remoteData.units), this.localStructure, this.remoteStructure];
 		for (let unitId in this.localData.units) {
 			this.localData.units[unitId].update(allUnits, this.mainViewport, world.localData.projectiles)
 		}
@@ -157,6 +167,7 @@ class World {
 				for (let unitId in this.localData.units) {
 					this.localData.units[unitId].projectileDamage(remoteProjectile.position);
 				}
+				this.localStructure.projectileDamage(remoteProjectile.position);
 			}
 		});
 
@@ -175,6 +186,27 @@ class World {
 			if (this.localData.units[unitId].health<=0) {
 				delete this.localData.units[unitId];
 			}
+		}
+
+		this.encodedData[2] = this.localStructure.getEncodedData();
+
+		if (this.localStructure.health<=0 || this.remoteStructure.health<=0) {
+			gameDone = true;
+		}
+	}
+
+	endMessage() {
+		p2p.disconnect();
+		connectionEstablished = false;
+		background(0);
+		textAlign(CENTER, CENTER);
+		textSize(64);
+		fill(255);
+		noStroke();
+		if (this.localStructure.health<=0) {
+			text("You Lose!", width/2, height/2);
+		} else if (this.remoteStructure.health<=0) {
+			text("You Win!", width/2, height/2);
 		}
 	}
 }

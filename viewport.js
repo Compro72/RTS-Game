@@ -11,6 +11,7 @@ class Viewport {
 		this.maxY = null;
 	}
 
+	// Unused
 	restrict(minX, minY, maxX, maxY) {
 		this.minX = minX;
 		this.minY = minY;

@@ -1,0 +1,165 @@
+class Structure {
+    constructor(world) {
+        this.position = createVector(0, 0);
+        this.unitCreationTimer = 0;
+        this.world = world;
+
+        this.collisionRadius = 175;
+        this.health = 1
+    }
+
+    getEncodedData() {
+        return [[this.position.x, this.position.y], this.collisionRadius, this.health, this.unitCreationTimer];
+    }
+
+    projectileDamage(projectilePosition) {
+        if (dist(this.position.x, this.position.y, projectilePosition.x, projectilePosition.y)<=this.collisionRadius+50) {
+            this.health -= 0.003
+        }
+    }
+
+    update(viewport) {
+        if (localSide==0) {
+            this.position = createVector(PLAYER1_POSITION.x, PLAYER1_POSITION.y);
+        } else {
+            this.position = createVector(PLAYER2_POSITION.x, PLAYER2_POSITION.y);
+        }
+        let posX = this.position.x-viewport.position.x;
+        let posY = this.position.y-viewport.position.y;
+
+        if (this.unitCreationTimer==UNIT_CREATION_FRAMES+1) {
+            this.world.addUnit(new Unit(this.world.nextUnitIndex, createVector(this.position.x, this.position.y+25), createVector(this.position.x+1, this.position.y+25), 15, 10))
+            this.unitCreationTimer = 0
+        }
+        
+        stroke(50);
+        strokeWeight(this.collisionRadius*2);
+        point(posX, posY);
+        
+        stroke(255);
+        strokeWeight(5);
+        if (localSide==0) {
+            fill(0, 0, 255)
+        } else {
+            fill(255, 0, 0)
+        }
+        
+        beginShape();
+        vertex(posX-100, posY-100);
+        vertex(posX+100, posY-100);
+        vertex(posX+100, posY+100);
+        vertex(posX+50, posY+100);
+        vertex(posX+50, posY-50);
+        vertex(posX-50, posY-50);
+        vertex(posX-50, posY+100);
+        vertex(posX-100, posY+100);
+        vertex(posX-100, posY+-100);
+        endShape();
+        
+        let transparency = map(this.unitCreationTimer, 0, UNIT_CREATION_FRAMES, 0, 255)
+        stroke(255, 255, 255, transparency);
+        strokeWeight(34);
+        point(posX, posY+25);
+
+        if (localSide==0) {
+            stroke(0, 0, 255, transparency);
+        } else {
+            stroke(255, 0, 0, transparency);
+        }
+        strokeWeight(30);
+        point(posX, posY+25);
+        
+        stroke(255, 255, 255, transparency);
+        strokeWeight(2);
+        line(posX, posY+25, posX+20, posY+25);
+
+        stroke(0);
+        strokeWeight(20);
+        line(posX-this.collisionRadius-15, posY-this.collisionRadius-15, posX+this.collisionRadius+15, posY-this.collisionRadius-15);
+
+        colorMode(HSL, 100);
+        stroke(max(0, min(this.health, 1))*33, 100, 50);
+        colorMode(RGB);
+        strokeWeight(15);
+        line(posX-this.collisionRadius-15, posY-this.collisionRadius-15, posX-this.collisionRadius-15+(2*this.collisionRadius+30)*max(0, min(this.health, 1)), posY-this.collisionRadius-15);
+        
+        this.unitCreationTimer += 1;
+    }
+}
+
+class RemoteStructure {
+    constructor(data) {
+        this.decodeData(data);
+    }
+
+    decodeData(data) {
+        if (data.length==0) {
+            return;
+        }
+        this.position = createVector(data[0][0], data[0][1]);
+        this.collisionRadius = data[1];
+        this.health = data[2];
+        this.unitCreationTimer = data[3];
+    }
+
+    isHovered(viewport) {
+        let mousePos = viewport.screenToWorld(mouseX, mouseY);
+        return dist(mousePos.x, mousePos.y, this.position.x, this.position.y)<=this.collisionRadius;
+    }
+
+    update(viewport) {
+        let posX = this.position.x-viewport.position.x;
+        let posY = this.position.y-viewport.position.y;
+        
+        stroke(50);
+        strokeWeight(this.collisionRadius*2);
+        point(posX, posY);
+        
+        stroke(255);
+        strokeWeight(5);
+        if (localSide==1) {
+            fill(0, 0, 255)
+        } else {
+            fill(255, 0, 0)
+        }
+        
+        beginShape();
+        vertex(posX-100, posY-100);
+        vertex(posX+100, posY-100);
+        vertex(posX+100, posY+100);
+        vertex(posX+50, posY+100);
+        vertex(posX+50, posY-50);
+        vertex(posX-50, posY-50);
+        vertex(posX-50, posY+100);
+        vertex(posX-100, posY+100);
+        vertex(posX-100, posY+-100);
+        endShape();
+        
+        let transparency = map(this.unitCreationTimer, 0, UNIT_CREATION_FRAMES, 0, 255)
+        stroke(255, 255, 255, transparency);
+        strokeWeight(34);
+        point(posX, posY+25);
+
+        if (localSide==1) {
+            stroke(0, 0, 255, transparency);
+        } else {
+            stroke(255, 0, 0, transparency);
+        }
+        strokeWeight(30);
+        point(posX, posY+25);
+        
+        stroke(255, 255, 255, transparency);
+        strokeWeight(2);
+        line(posX, posY+25, posX+20, posY+25);
+
+        stroke(0);
+        strokeWeight(20);
+        line(posX-this.collisionRadius-15, posY-this.collisionRadius-15, posX+this.collisionRadius+15, posY-this.collisionRadius-15);
+
+        colorMode(HSL, 100);
+        stroke(max(0, min(this.health, 1))*33, 100, 50);
+        colorMode(RGB);
+        strokeWeight(15);
+        line(posX-this.collisionRadius-15, posY-this.collisionRadius-15, posX-this.collisionRadius-15+(2*this.collisionRadius+30)*max(0, min(this.health, 1)), posY-this.collisionRadius-15);
+    }
+}

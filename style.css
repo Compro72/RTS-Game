@@ -2,4 +2,62 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: "Arial", sans-serif;
+}
+
+#input {
+    color: white;
+    background-color: #444444;
+    position: absolute;
+    padding: 20px;
+    border: 0px;
+    width: 460px;
+    height: 60px;
+    top: 10px;
+    left: 520px;
+    border-radius: 10px;
+}
+
+#process {
+    color: white;
+    background-color: #444444;
+    position: absolute;
+    padding: 0px;
+    border: 0px;
+    width: 500px;
+    height: 100px;
+    top: 120px;
+    left: 520px;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+}
+
+#process:hover {
+    background-color: #666666;
+}
+
+#shareCode {
+    overflow: scroll;
+    width: 500px;
+    height: 210px;
+    color: white;
+    position: absolute;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+    top: 10px;
+    left: 10px;
+}
+
+#instructions {
+    font-size: 20px;
+    width: 1000px;
+    height: 500px;
+    color: white;
+    position: absolute;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+    top: 240px;
+    left: 10px;
 }

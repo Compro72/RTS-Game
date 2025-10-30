@@ -10,7 +10,7 @@ class Unit {
 
         this.collisionRadius = collisionRadius;
         this.maxSpeed = maxSpeed;
-        this.displayDir = createVector(0, 0)
+        this.displayDir = createVector(1, 0)
         
         this.selected = false;
         this.health = 1;
@@ -27,7 +27,7 @@ class Unit {
 
     projectileDamage(projectilePosition) {
         if (dist(this.position.x, this.position.y, projectilePosition.x, projectilePosition.y)<=this.collisionRadius+50) {
-            this.health -= 0.07
+            this.health -= 0.1
         }
     }
 
@@ -54,7 +54,7 @@ class Unit {
         if (!allUnits.includes(this.attackTarget)) {
             this.attackTarget = null;
         }
-        if (this.framesSinceLastProjectile>=100 && this.attackTarget!=null && dist(this.attackTarget.position.x, this.attackTarget.position.y, this.position.x, this.position.y)<300) {
+        if (this.framesSinceLastProjectile>=100 && this.attackTarget!=null && dist(this.attackTarget.position.x, this.attackTarget.position.y, this.position.x, this.position.y)<500) {
             this.generateProjectile(projectileList);
             this.framesSinceLastProjectile = 0;
         } else {
@@ -130,7 +130,7 @@ class RemoteUnit {
     
     isHovered(viewport) {
         let mousePos = viewport.screenToWorld(mouseX, mouseY);
-        return dist(mousePos.x, mousePos.y, this.position.x, this.position.y)<=this.collisionRadius*3/2;
+        return dist(mousePos.x, mousePos.y, this.position.x, this.position.y)<=this.collisionRadius*2;
     }
 
     render(viewport) {
