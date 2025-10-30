@@ -61,3 +61,22 @@ html, body {
     top: 240px;
     left: 10px;
 }
+
+#continue {
+    display: none;
+    color: white;
+    background-color: #444444;
+    position: absolute;
+    padding: 0px;
+    border: 0px;
+    width: 500px;
+    height: 100px;
+    bottom: 50px;
+    left: 50px;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+}
+
+#continue:hover {
+    background-color: #666666;
+}

@@ -196,7 +196,6 @@ class World {
 	}
 
 	endMessage() {
-		p2p.disconnect();
 		connectionEstablished = false;
 		background(0);
 		textAlign(CENTER, CENTER);

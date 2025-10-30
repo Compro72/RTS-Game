@@ -85,19 +85,4 @@ class P2PDataChannel {
 			this.dataChannel.send(JSON.stringify(data));
 		}
 	}
-
-	disconnect() {
-        if (this.dataChannel) {
-            this.dataChannel.close();
-            this.dataChannel = null;
-        }
-        
-        if (this.device) {
-            this.device.close();
-            this.device = null;
-        }
-        
-        this.iceList = [];
-        this.isInitiator = null;
-    }
 }

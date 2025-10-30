@@ -74,7 +74,7 @@ let mouseDown = false;
 let world;
 let viewport;
 let p2p;
-let localSide;
+let localSide = null;
 let connectionEstablished = false;
 let gameDone = false;
 
@@ -87,22 +87,53 @@ function setupP2P() {
 	}
 
 	p2p.onDataReceived = (data) => {
-		world.decodeRemoteData(data);
+		if (data=="1") {
+			continueGame();
+		} else {
+			world.decodeRemoteData(data);
+		}
 	}
 }
 
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	world = new World();
+	initGame();
+}
+
+function initGame() {
+	document.getElementById("continue").style.display = "none";
 	viewport = new Viewport(0, 0);
+	world = new World();
 	world.attachViewport(viewport);
+
+	if (localSide!=null) {
+		if (localSide==0) {
+			viewport.position.x = -windowWidth/2+PLAYER1_POSITION.x;
+			viewport.position.y = -windowHeight/2+PLAYER1_POSITION.y;
+		} else {
+			viewport.position.x = -windowWidth/2+PLAYER2_POSITION.x;
+			viewport.position.y = -windowHeight/2+PLAYER2_POSITION.y;
+		}
+	}
+}
+
+function continueGame() {
+	initGame();
+	connectionEstablished = true;
+	gameDone = false;
+	if (localSide==0) {
+		p2p.sendData(1)
+	}
 }
 
 
 function draw() {
 	if (gameDone) {
 		world.endMessage();
+		if (localSide==0) {
+			document.getElementById("continue").style.display = "block";
+		}
 		return;
 	}
 	if (p2p && p2p.dataChannel && p2p.dataChannel.readyState=="open") {
@@ -187,6 +218,9 @@ function keyPressed() {
 				viewport.position.y = -windowHeight/2+PLAYER2_POSITION.y;
 			}
 		}
+		//if (key==="e") {
+			//world.localStructure.health = 0;
+		//}
 	}
 }
 
