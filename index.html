@@ -4,38 +4,61 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 	<link rel="stylesheet" href="style.css">
 </head>
-<body onclick="goFullscreen()">
+<body>
 	<p id="shareCode"></p>
 	<textarea id="input" placeholder="Paste Answer"></textarea>
-	<button id="process" onclick="p2p.process(document.getElementById('input').value)">Process Answer</button>
-	<p id="instructions">
-		Instructions:<br>
+	<button id="process" onclick="p2p.process(document.getElementById('input').value.trim())">Start Game</button>
+	<p id="instructions0" class="instructions">
+		Connection Instructions:<br>
 		<br>
-		If you are creating the game (initiator), share the link generated with the other player.<br>
-		By pressing allow to clipboard, the link will automatically get copied.<br>
-		If you are joining a game (recieved a link), copy the generated code and share with the initiator.<br>
-		After the initiatior recives the code paste it in the "paste answer" field and press "Process Answer"<br>
+		Share the generated link with the other player.<br>
+		By allowing clipboard access, the link will automatically get copied.<br>
+		If clipboard is blocked, manually copy the link to share with other player.<br>
+		Ask the other player to share their generated answer with you.<br>
+		Paste their answer in the "Paste Answer" field and press "Start Game".<br>
+		Note: These steps can be done in split browsers for testing purposes.<br>
 		<br>
 		Game Instructions:<br>
 		<br>
 		Arrow Keys - Move the camera around<br>
-		Mouse Drag - Select your units<br>
-		Mouse Click - Move units or attack opponent units/structures<br>
-		A key - Select all units<br>
-		S key - Scatter selected units<br>
-		H key - Return camera to home structure<br>
+		Mouse Drag - Select units in the selection box<br>
+		Mouse Left Click - Move units or attack opponent units/structures (click on opponent)<br>
+		Mouse Right Click - Unselect units<br>
+		"A" key - Select all your units<br>
+		"S" key - Scatter selected units<br>
+		"H" key - Return camera to home structure<br>
+		"O" key - Move camera to opponent structure<br>
+		Game Objective - Destroy opponent's structure<br>
+		Your structure will constantly generate new units<br>
+	</p>
+	<p id="instructions1" class="instructions">
+		Connection Instructions:<br>
+		<br>
+		Share the generated code with the other player.<br>
+		By allowing clipboard access, the code will automatically get copied.<br>
+		If clipboard is blocked, manually copy the code to share with other player.<br>
+		The other player will use the code to connect to your game.<br>
+		<br>
+		Game Instructions:<br>
+		<br>
+		Arrow Keys - Move the camera around<br>
+		Mouse Drag - Select units in the selection box<br>
+		Mouse Left Click - Move units or attack opponent units/structures (click on opponent)<br>
+		Mouse Right Click - Unselect units<br>
+		"A" key - Select all your units<br>
+		"S" key - Scatter selected units<br>
+		"H" key - Return camera to home structure<br>
+		"O" key - Move camera to opponent structure<br>
 		Game Objective - Destroy opponent's structure<br>
 		Your structure will constantly generate new units<br>
 	</p>
 	<button id="continue" onclick="continueGame()">Continue</button>
 
-	<script src="utils.js"></script>
-	<script src="constants.js"></script>
-	<script src="projectile.js"></script>
 	<script src="p2p.js"></script>
 	<script src="world.js"></script>
 	<script src="viewport.js"></script>
 	<script src="units.js"></script>
+	<script src="projectile.js"></script>
 	<script src="structures.js"></script>
 	<script src="main.js"></script>
 </body>
