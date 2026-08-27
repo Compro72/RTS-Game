@@ -24,7 +24,7 @@ A 2-player serverless peer-to-peer real time strategy game using WebRTC and P5.j
 
 ## Technical Description
 
-
+To make a serverless connection between two devices using WebRTC, a session description protocol (SDP) and a list of interactive connectivity establishment (ICE) candidates are required. The SDP contains the format, media settings and network protocols of the device so that the other device can seamlessly open a data stream. The ICE candidates are derived from an external Session Traversal Utilities for NAT (STUN) server and provide the list of possible network addresses where the device can be reached. Both sides of the connection receive this message from the other side by the user manually sending it. This is done to keep the connection serverless. Once the connection is established, the game syncs units, projectiles and damage to the other player through the opened data channel. Additionally, it also adds target points for the other player to click and destroy.
 
 ---
 
