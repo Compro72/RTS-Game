@@ -30,7 +30,10 @@ To make a serverless connection between two devices using WebRTC, a session desc
 
 ## Future Improvements
 
-* **:**
+* **Pausing:** By pausing the data stream and the game on both sides when a player has switched the tab would prevent the game from desyncing on both sides.
+* **WebSockets Server:** Setting up a websocket server for initially connecting the players would remove the need to copy paste the SDP and ICE list from one player to another. This would provide instant connections.
+* **Increase Players:** This game has simple mechanics making it scalable for more players. This would require a mesh network architecture if using peer-to-peer connections.
+* **Game Mechanics:** By adding more game mechanics like building structures and more types of units, the game becomes more interesting for multiple people to play.
 
 ---
 
