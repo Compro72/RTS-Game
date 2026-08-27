@@ -1,6 +1,6 @@
 # RTS Game
 
-A 2-player peer-to-peer real time strategy game using WebRTC and P5.js. The game features movable units, unit collision avoidance, projectiles, area damage etc.
+A 2-player serverless peer-to-peer real time strategy game using WebRTC and P5.js. The game itself features movable units, unit collision avoidance, projectiles, health bars, area damage etc.
 
 ---
 
